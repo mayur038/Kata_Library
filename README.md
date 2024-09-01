@@ -29,7 +29,7 @@ The **Kata Library Management System** is a straightforward application designed
 
 1. **Clone the Repository**:
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/mayur038/kata_library/
     ```
 2. **Navigate to the Project Directory**:
     ```bash
@@ -60,5 +60,5 @@ The **Kata Library Management System** is a straightforward application designed
 
 ## Contact
 
-For further information or questions, please contact [Your Name] at [Your Email].
+For further information or questions, please contact mayur gohil at mkg15122003@gmail.com.
 
