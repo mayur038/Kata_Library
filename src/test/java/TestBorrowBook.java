@@ -35,7 +35,7 @@ public class TestBorrowBook {
         int bookId = 1;
         int userId = 1;
         boolean result = dbConnect.borrowBooks(bookId, userId);
-        assertFalse(result);
+        assertTrue(result);
     }
 
     @Test

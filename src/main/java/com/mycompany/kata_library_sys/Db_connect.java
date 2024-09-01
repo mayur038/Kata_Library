@@ -60,7 +60,7 @@ public class Db_connect{
 
         try {
             // SQL query to fetch all books
-            String query = "SELECT * FROM books";
+            String query = "SELECT * FROM books where is_available = true";
 
             // Execute the query
             resultSet = stmt.executeQuery(query);
@@ -163,4 +163,18 @@ public class Db_connect{
         ResultSet rs = stmt.executeQuery(query);
         return rs.next();
     }
+    
+    // Method to get book ID from ISBN
+public int getBookIdFromISBN(String isbn) throws SQLException {
+    int bookId = -1; // Default value if ISBN is not found
+    String query = "SELECT book_id FROM books WHERE isbn = '" + isbn + "'";
+    
+    ResultSet rs = stmt.executeQuery(query);
+    if (rs.next()) {
+        bookId = rs.getInt("book_id");
+    }
+    rs.close();
+    return bookId;
+}
+    
 }

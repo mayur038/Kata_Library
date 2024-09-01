@@ -1,3 +1,4 @@
-TestViewBooks.class
 TestAddbook.class
 TestBorrowBook.class
+TestViewBooks.class
+TestReturnBooks.class
