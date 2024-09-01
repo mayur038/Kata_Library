@@ -17,7 +17,7 @@ public class Db_connect{
     protected ResultSet resultSet;
     
 //    connect to the database for operation
-    protected boolean db_connect() throws Exception {   
+    public boolean db_connect() throws Exception {   
         Class.forName("com.mysql.cj.jdbc.Driver"); 
         this.con =  DriverManager.getConnection("jdbc:mysql://localhost:3306/kata_library", "root", "");
           
@@ -32,10 +32,10 @@ public class Db_connect{
     }
     
     // Add a book
-    protected int addBook(String isbn, String title, String author, int p_year, boolean is_available) {
+    public int addBook(String isbn, String title, String author, int p_year, boolean is_available) {
         try {
             // Check for all valid data
-            if(isbn != null && title != null && author != null && p_year != 0) {
+            if(p_year <= 2024  && isbn != null && title != null && author != null && p_year != 0  && specialchar(title) && specialchar(isbn)) {
                 // Corrected SQL insert query with proper syntax
                 String Insert_query = "INSERT INTO `books` (`isbn`, `title`, `author`, `publication_year`, `is_available`) VALUES ('" 
                                        + isbn + "','" + title + "','" + author + "'," + p_year + "," + (is_available ? 1 : 0) + ")";
@@ -100,7 +100,7 @@ public class Db_connect{
     }
 
     // Return a book
-    protected boolean returnBooks(int bookid, int userid) throws SQLException {
+    public boolean returnBooks(int bookid, int userid) throws SQLException {
         if (validateUser(userid) && validateBook(bookid)) {
             String update_book = "UPDATE `books` SET `is_available` = true WHERE `book_id` = " + bookid;
             String delete_query = "DELETE FROM `borrowed_books` WHERE `book_id` = " + bookid; 
@@ -114,7 +114,7 @@ public class Db_connect{
     }
 
     // Borrow a book
-    protected boolean borrowBooks(int bookid, int userid) throws SQLException {
+    public boolean borrowBooks(int bookid, int userid) throws SQLException {
         if (validateUser(userid) && validateBook(bookid)) {
             String update_book = "UPDATE `books` SET `is_available` = false WHERE `book_id` = " + bookid;
             String insert_query = "INSERT INTO `borrowed_books`(`book_id`, `user_id`, `borrow_date`, `return_date`) VALUES (" + bookid + "," + userid + ",'" + LocalDate.now() + "',NULL)"; 
@@ -133,7 +133,13 @@ public class Db_connect{
         ResultSet rs = stmt.executeQuery(query);
         return rs.next();
     }
-
+    protected static boolean specialchar(String input) {
+        // Regular expression to match any character that is not a letter, digit, or space
+        String regex = "[^a-zA-Z0-9 ]";
+        
+        // Check if the input string contains any special character
+        return input.matches(".*" + regex + ".*");
+    }
     // Validate book
     protected boolean validateBook(int bookid) throws SQLException {
         String query = "SELECT * FROM books WHERE book_id = " + bookid;
