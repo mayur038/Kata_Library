@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="TestAddbook" time="0.982" tests="6" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="TestViewBooks" time="0.172" tests="3" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -59,27 +59,15 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="test_check_for_null_values" classname="TestAddbook" time="0.807">
+  <testcase name="test_view_books_contains_valid_data" classname="TestViewBooks" time="0.052">
     <system-out><![CDATA[Connected to the database successfully!
 ]]></system-out>
   </testcase>
-  <testcase name="test_add_book_string_ISBN" classname="TestAddbook" time="0.016">
+  <testcase name="test_view_books_empty_database" classname="TestViewBooks" time="0.027">
     <system-out><![CDATA[Connected to the database successfully!
 ]]></system-out>
   </testcase>
-  <testcase name="test_return_type_is_boolean" classname="TestAddbook" time="0.016">
-    <system-out><![CDATA[Connected to the database successfully!
-]]></system-out>
-  </testcase>
-  <testcase name="test_insert_book" classname="TestAddbook" time="0.023">
-    <system-out><![CDATA[Connected to the database successfully!
-]]></system-out>
-  </testcase>
-  <testcase name="test_special_characters_in_title" classname="TestAddbook" time="0.008">
-    <system-out><![CDATA[Connected to the database successfully!
-]]></system-out>
-  </testcase>
-  <testcase name="test_future_publication_year" classname="TestAddbook" time="0.007">
+  <testcase name="test_view_books_returns_list" classname="TestViewBooks" time="0.078">
     <system-out><![CDATA[Connected to the database successfully!
 ]]></system-out>
   </testcase>
