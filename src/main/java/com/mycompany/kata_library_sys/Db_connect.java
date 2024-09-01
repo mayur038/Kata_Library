@@ -35,7 +35,7 @@ public class Db_connect{
     public int addBook(String isbn, String title, String author, int p_year, boolean is_available) {
         try {
             // Check for all valid data
-            if(p_year <= 2024  && isbn != null && title != null && author != null && p_year != 0  && specialchar(title) && specialchar(isbn)) {
+            if(p_year < 2024  && isbn != null && title != null && author != null && p_year != 0  && specialchar(title) && specialchar(isbn)) {
                 // Corrected SQL insert query with proper syntax
                 String Insert_query = "INSERT INTO `books` (`isbn`, `title`, `author`, `publication_year`, `is_available`) VALUES ('" 
                                        + isbn + "','" + title + "','" + author + "'," + p_year + "," + (is_available ? 1 : 0) + ")";
@@ -114,21 +114,38 @@ public class Db_connect{
     }
 
     // Borrow a book
-    public boolean borrowBooks(int bookid, int userid) throws SQLException {
-        if (validateUser(userid) && validateBook(bookid)) {
+            public boolean borrowBooks(int bookid, int userid) throws SQLException {
+            if (!validateUser(userid)) {
+                return false; // User does not exist
+            }
+            if (!validateBook(bookid)) {
+                return false; // Book does not exist
+            }
+            if (!isBookAvailable(bookid)) {
+                return false; // Book is already borrowed
+            }
+
             String update_book = "UPDATE `books` SET `is_available` = false WHERE `book_id` = " + bookid;
-            String insert_query = "INSERT INTO `borrowed_books`(`book_id`, `user_id`, `borrow_date`, `return_date`) VALUES (" + bookid + "," + userid + ",'" + LocalDate.now() + "',NULL)"; 
+            String insert_query = "INSERT INTO `borrowed_books`(`book_id`, `user_id`, `borrow_date`, `return_date`) VALUES (" + bookid + "," + userid + ",'" + LocalDate.now() + "',NULL)";
 
             int rowsInserted = stmt.executeUpdate(insert_query);
             int rowsUpdated = stmt.executeUpdate(update_book);
-            
+
             return rowsInserted > 0 && rowsUpdated > 0;
         }
-        return false;
-    }
+
+        // Check if book is available
+        private boolean isBookAvailable(int bookid) throws SQLException {
+            String query = "SELECT `is_available` FROM `books` WHERE `book_id` = " + bookid;
+            ResultSet rs = stmt.executeQuery(query);
+            if (rs.next()) {
+                return rs.getBoolean("is_available");
+            }
+            return false; // Book does not exist
+        }
 
     // Validate user
-    protected boolean validateUser(int userid) throws SQLException {
+    public boolean validateUser(int userid) throws SQLException {
         String query = "SELECT * FROM users WHERE user_id = " + userid;
         ResultSet rs = stmt.executeQuery(query);
         return rs.next();

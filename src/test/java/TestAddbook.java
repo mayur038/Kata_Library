@@ -32,11 +32,6 @@ public class TestAddbook   {
         assertEquals(0, result);
     }
 
- 
-
-   
-
-
     @Test
     public void test_future_publication_year() {
         int result = db.addBook("9783161484100", "Test Title", "Test Author", 2025, true);
